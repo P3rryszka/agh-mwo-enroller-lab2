@@ -18,9 +18,12 @@ public class ParticipantRestController {
 	ParticipantService participantService;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<?> getParticipants() {
-		Collection<Participant> participants = participantService.getAll();
-		return new ResponseEntity<Collection<Participant>>(participants, HttpStatus.OK);
+	public ResponseEntity<?> getParticipants(@RequestParam(value = "sortBy", defaultValue = "", required = false) String sortBy,
+											 @RequestParam(value = "sortOrder", defaultValue = "", required = false) String sortOrder,
+											 @RequestParam(value = "key", defaultValue = "", required = false) String key) {
+
+		Collection<Participant> participants = participantService.getAll(sortBy, sortOrder, key);
+		return new ResponseEntity<>(participants ,HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -63,5 +66,6 @@ public class ParticipantRestController {
 		participantService.update(participant);
 		return new ResponseEntity<Participant>(HttpStatus.OK);
 	}
+
 
 }
